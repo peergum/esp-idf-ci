@@ -4,6 +4,7 @@ version="$(git br|grep '*'|cut -d' ' -f2)"
 repo="$(git remote -v|grep push|cut -d':' -f2|cut -d'.' -f1)"
 
 if [[ $version != "master" ]] && [[ $version != "main" ]]; then
+	version="$(echo $version|cut -d'v' -f2)"
 	echo "Pushing to docker hub repo $repo:$version"
 	docker push $repo:$version
 else

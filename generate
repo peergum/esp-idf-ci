@@ -1,7 +1,12 @@
 #!/bin/bash
 
-version="$(git br|grep -- '*'|cut -d'v' -f2)"
+version="$(git br|grep '*'|cut -d' ' -f2)"
 repo="$(git remote -v|grep push|cut -d':' -f2|cut -d'.' -f1)"
 
-echo "Pushing to docker hub repo $repo:$version"
-docker push $repo:$version
+if [[ $version != "master" ]] && [[ $version != "main" ]]; then
+	echo "Pushing to docker hub repo $repo:$version"
+	docker push $repo:$version
+else
+	echo "Pushing to docker hub repo $repo:latest"
+	docker push $repo
+fi
